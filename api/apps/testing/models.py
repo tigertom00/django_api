@@ -5,9 +5,9 @@ from django.db import models
 
 class Post(models.Model):
     """Model definition for Post."""
-    title = models.CharField(max_length=64, blank=True)
-    text = models.TextField(blank=True)
-    date = models.DateTimeField(auto_now=True)
+    text = models.CharField(max_length=64, blank=True)
+    day = models.DateField(null=True, blank=True)
+    reminder = models.BooleanField(default=False)
 
     # TODO: Define fields here
 
@@ -19,4 +19,4 @@ class Post(models.Model):
 
     def __str__(self):
         """Unicode representation of Post."""
-        return self.title
+        return self.text

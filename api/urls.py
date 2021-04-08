@@ -20,5 +20,5 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns += [
         path('__debug__/', include(debug_toolbar.urls)),
-        path('api/testing', include('api.apps.testing.urls')),
+        path('api/testing/', include('api.apps.testing.urls')),
     ]
