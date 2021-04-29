@@ -1,5 +1,6 @@
 from pathlib import Path
 from decouple import config
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -12,17 +13,24 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     # 3rd Party
+    'rest_framework',
+    'rest_framework.authtoken',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     'corsheaders',
-    'rest_framework',
-    # 'rest_framework.authtoken',
+    'rest_framework_simplejwt.token_blacklist',
+    # 'oauth2_provider',
     # 'rest_auth',
     # 'rest_auth.registration',
     # My Apps
     'api.apps.users',
+    'api.apps.accounts',
     'api.apps.home',
+    
 
 ]
 
@@ -36,7 +44,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
+SECRET_KEY = config('SECRET_KEY')
 ROOT_URLCONF = 'api.urls'
 
 TEMPLATES = [
@@ -70,14 +78,17 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Rest Framework
+#* Rest Framework
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
     ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework.authentication.TokenAuthentication',
+    # ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
 }
 
@@ -86,11 +97,12 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
-LOGIN_URL = 'account_login'
-LOGIN_REDIRECT_URL = 'root'
-LOGOUT_REDIRECT_URL = 'root'
+# LOGIN_URL = 'account_login'
+# LOGIN_URL = '/amin/login/'
+# LOGIN_REDIRECT_URL = 'root'
+# LOGOUT_REDIRECT_URL = 'root'
 
-# AllAuth
+#* AllAuth + E-mail
 
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
@@ -100,7 +112,43 @@ AUTHENTICATION_BACKENDS = (
 
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
 SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
+
+#* DJ Rest Auth
+REST_AUTH_SERIALIZERS = {
+    'USER_DETAILS_SERIALIZER': 'api.apps.users.serializers.UsersSerializer'
+    }
+REST_USE_JWT = True
+
+# * Simple JSON Web Token
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+
+    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
+
