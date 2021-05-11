@@ -30,8 +30,8 @@ INSTALLED_APPS = [
     'api.apps.users',
     'api.apps.accounts',
     'api.apps.home',
-    
-
+    'api.apps.blog',
+    'api.apps.todo'
 ]
 
 MIDDLEWARE = [
@@ -93,7 +93,7 @@ REST_FRAMEWORK = {
 }
 
 
-# Django AllAuth config && Auth Config
+#* Django AllAuth config && Auth Config
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -110,6 +110,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend'
 )
 
+ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
@@ -125,10 +126,10 @@ REST_USE_JWT = True
 
 # * Simple JSON Web Token
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=20),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': False,
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
 
     'ALGORITHM': 'HS256',

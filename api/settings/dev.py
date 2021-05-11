@@ -2,8 +2,6 @@ from .base import *
 
 DEBUG = True
 
-SECRET_KEY = config('SECRET_KEY')
-
 ALLOWED_HOSTS = []
 
 INSTALLED_APPS += [
@@ -17,8 +15,8 @@ MIDDLEWARE += [
 
 # * Paths
 VENV_PATH = Path(BASE_DIR).joinpath('django_web/static')
-STATIC_URL = '/django_web/static/'
-MEDIA_URL = '/django_web/media/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 STATICFILES_DIRS = [Path(VENV_PATH) / 'static_in_env']
 STATIC_ROOT = Path(VENV_PATH) / 'static_root'
 MEDIA_ROOT = Path(VENV_PATH) / 'media_root'
@@ -76,32 +74,5 @@ DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': show_toolbar
 }
 
-# * Simple JSON Web Token
 
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
-    'ROTATE_REFRESH_TOKENS': True,
-    'BLACKLIST_AFTER_ROTATION': True,
-    'UPDATE_LAST_LOGIN': False,
 
-    'ALGORITHM': 'HS256',
-    'SIGNING_KEY': SECRET_KEY,
-    'VERIFYING_KEY': None,
-    'AUDIENCE': None,
-    'ISSUER': None,
-
-    'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
-    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-    'USER_ID_FIELD': 'id',
-    'USER_ID_CLAIM': 'user_id',
-
-    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-    'TOKEN_TYPE_CLAIM': 'token_type',
-
-    'JTI_CLAIM': 'jti',
-
-    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-}

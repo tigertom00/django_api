@@ -17,7 +17,8 @@ class CustomUserAdmin(UserAdmin):
                     'country',
                     'phone',
                     'website',
-                    'profile_picture'
+                    'profile_picture',
+                    'dark_mode'
                     ]
     fieldsets = UserAdmin.fieldsets + (
         (None, {'fields': (
@@ -25,7 +26,8 @@ class CustomUserAdmin(UserAdmin):
             'country',
             'phone',
             'website',
-            'profile_picture'
+            'profile_picture',
+            'dark_mode'
         )}),
     )
 
