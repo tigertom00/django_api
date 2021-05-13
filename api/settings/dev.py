@@ -15,8 +15,8 @@ MIDDLEWARE += [
 
 # * Paths
 VENV_PATH = Path(BASE_DIR).joinpath('django_web/static')
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
+STATIC_URL = 'django_web/static/'
+MEDIA_URL = 'django_web/media/'
 STATICFILES_DIRS = [Path(VENV_PATH) / 'static_in_env']
 STATIC_ROOT = Path(VENV_PATH) / 'static_root'
 MEDIA_ROOT = Path(VENV_PATH) / 'media_root'

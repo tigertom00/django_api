@@ -28,7 +28,8 @@ INSTALLED_APPS = [
     # 'rest_auth.registration',
     # My Apps
     'api.apps.users',
-    'api.apps.accounts',
+    'api.apps.utils',
+    # 'api.apps.accounts',
     'api.apps.home',
     'api.apps.blog',
     'api.apps.todo'

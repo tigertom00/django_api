@@ -2,11 +2,27 @@ from rest_framework import generics, viewsets, permissions
 from .models import Blog
 from .serializers import BlogSerializer
 
-class BlogList(generics.ListCreateAPIView):
-    pass
 
-class BlogDetail(generics.RetrieveDestroyAPIView):
-    pass
+class BlogUserWritePermission(permissions.BasePermission):
+    message = 'Editing posts is restricted to the author only.'
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+
+        return obj.author == request.user
+
+
+
+class BlogList(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Blog.postobjects.all()
+    serializer_class = BlogSerializer
+
+class BlogDetail(generics.RetrieveUpdateDestroyAPIView, BlogUserWritePermission):
+    permission_classes = [BlogUserWritePermission]
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
 
 class BlogViewSet(viewsets.ModelViewSet):
     serializer_class = BlogSerializer
