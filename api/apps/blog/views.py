@@ -1,7 +1,9 @@
-from rest_framework import generics, viewsets, permissions
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, viewsets, permissions, filters
 from .models import Blog
 from .serializers import BlogSerializer
 
+#* Custom permission !only the author have write permit!
 
 class BlogUserWritePermission(permissions.BasePermission):
     message = 'Editing posts is restricted to the author only.'
@@ -13,25 +15,50 @@ class BlogUserWritePermission(permissions.BasePermission):
         return obj.author == request.user
 
 
+#* Filter, Gets the blogs just for the current user
 
-class BlogList(generics.ListCreateAPIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    queryset = Blog.postobjects.all()
+class BlogList(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = BlogSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Blog.objects.filter(author=user)
+
+
 
 class BlogDetail(generics.RetrieveUpdateDestroyAPIView, BlogUserWritePermission):
     permission_classes = [BlogUserWritePermission]
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
 
+
+class BlogListDetailfilter(generics.ListAPIView):
+
+    queryset = Blog.objects.all()
+    serializer_class = BlogSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['^slug']
+
+    # '^' Starts-with search.
+    # '=' Exact matches.
+    # '@' Full-text search. (Currently only supported Django's PostgreSQL backend.)
+    # '$' Regex search.
+
+
 class BlogViewSet(viewsets.ModelViewSet):
     serializer_class = BlogSerializer
-    queryset = Blog.objects.all()
+    # queryset = Blog.objects.all()
     permission_classes = [
-        permissions.AllowAny
+        BlogUserWritePermission
     ]
-    # def get_queryset(self):
-    #     return self.queryset
+
+    def get_object(self, queryset=None, **kwargs):
+        item = self.kwargs.get('pk')
+        return get_object_or_404(Blog, slug=item)
+
+    def get_queryset(self):
+        return Blog.objects.all()
     # def get_queryset(self):
     #     return self.queryset.filter(user=self.request.user)
 

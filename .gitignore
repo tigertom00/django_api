@@ -4,6 +4,8 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,visualstudiocode,django,react
 
 ### CUSTOM
+django_web/
+/django_web/
 static_root/
 /static/
 local_static_files/

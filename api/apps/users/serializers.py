@@ -10,10 +10,12 @@ Users = get_user_model()
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
-        fields = ('id', 'username', 'email', 'first_name', 'last_name', 'date_of_birth', 'address', 'city', 'country', 'website', 'phone', 'profile_picture', 'date_joined', 'last_login', 'dark_mode')
+        fields = ('id', 'username', 'display_name', 'email', 'first_name', 'last_name', 'date_of_birth', 'address',
+                  'city', 'country', 'website', 'phone', 'profile_picture', 'date_joined', 'last_login', 'dark_mode')
 
         # fields = '__all__'
         # queryset = Users.objects.all()
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

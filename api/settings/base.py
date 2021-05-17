@@ -79,7 +79,7 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-#* Rest Framework
+# * Rest Framework
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
@@ -91,10 +91,12 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
+# REST_FRAMEWORK = {}
 
 
-#* Django AllAuth config && Auth Config
+# * Django AllAuth config && Auth Config
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -103,7 +105,7 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # LOGIN_REDIRECT_URL = 'root'
 # LOGOUT_REDIRECT_URL = 'root'
 
-#* AllAuth + E-mail
+# * AllAuth + E-mail
 
 SITE_ID = 1
 AUTHENTICATION_BACKENDS = (
@@ -119,15 +121,15 @@ SOCIALACCOUNT_EMAIL_VERIFICATION = 'optional'
 SOCIALACCOUNT_QUERY_EMAIL = True
 ACCOUNT_USERNAME_MIN_LENGTH = 4
 
-#* DJ Rest Auth
+# * DJ Rest Auth
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'api.apps.users.serializers.UsersSerializer'
-    }
+}
 REST_USE_JWT = True
 
 # * Simple JSON Web Token
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=20),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
     'ROTATE_REFRESH_TOKENS': True,
     'BLACKLIST_AFTER_ROTATION': True,
@@ -153,4 +155,3 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
-

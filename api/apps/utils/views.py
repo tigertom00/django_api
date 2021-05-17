@@ -3,9 +3,10 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
 class BlacklistTokenView(APIView):
     permission_classes = [permissions.AllowAny]
-    
+
     def post(self, request,):
         try:
             refresh_token = request.data["refresh_token"]

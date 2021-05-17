@@ -1,22 +1,25 @@
-from rest_framework import viewsets, permissions
-from .models import Post
-from .serializers import PostSerializer
+from rest_framework import viewsets, permissions, generics
 
 
-class PostViewSet(viewsets.ModelViewSet):
 
-    serializer_class = PostSerializer
-    queryset = Post.objects.all()
-    permission_classes = [
-        permissions.IsAuthenticated
-    ]
-    def get_queryset(self):
-        return self.queryset.filter(user=self.request.user)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-    # def get_queryset(self):
-    #     return self.request.user.Post.all()
-
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
+""" Concrete View Classes
+# CreateAPIView
+Used for create-only endpoints.
+# ListAPIView
+Used for read-only endpoints to represent a collection of model instances.
+# RetrieveAPIView
+Used for read-only endpoints to represent a single model instance.
+# DestroyAPIView
+Used for delete-only endpoints for a single model instance.
+# UpdateAPIView
+Used for update-only endpoints for a single model instance.
+# ListCreateAPIView
+Used for read-write endpoints to represent a collection of model instances.
+RetrieveUpdateAPIView
+Used for read or update endpoints to represent a single model instance.
+# RetrieveDestroyAPIView
+Used for read or delete endpoints to represent a single model instance.
+# RetrieveUpdateDestroyAPIView
+Used for read-write-delete endpoints to represent a single model instance.
+"""
