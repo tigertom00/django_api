@@ -17,16 +17,18 @@ urlpatterns = [
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     path('dj-rest-auth/facebook/', FacebookLogin.as_view(), name='fb_login'),
-    path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(), name='account_email_verification_sent'),
+    path('dj-rest-auth/account-confirm-email/', VerifyEmailView.as_view(),
+         name='account_email_verification_sent'),
     path('allauth/', include('allauth.urls')),
-    
-    
+
+
     path('home/', include('api.apps.home.urls')),
     path('api/users/', include('api.apps.users.urls')),
     # path('api/accounts/', include('api.apps.accounts.urls')),
     path('api/todo/', include('api.apps.todo.urls')),
     path('api/blog/', include('api.apps.blog.urls')),
     path('api/utils/', include('api.apps.utils.urls')),
+    path('api/exp/', include('api.apps.personal_exp.urls')),
 ]
 
 if settings.DEBUG:
@@ -35,6 +37,5 @@ if settings.DEBUG:
         path('__debug__/', include(debug_toolbar.urls)),
         path('api/testing/', include('api.apps.testing.urls')),
     ]
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-        
-    
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

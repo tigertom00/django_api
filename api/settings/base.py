@@ -32,7 +32,8 @@ INSTALLED_APPS = [
     # 'api.apps.accounts',
     'api.apps.home',
     'api.apps.blog',
-    'api.apps.todo'
+    'api.apps.todo',
+    'api.apps.personal_exp',
 ]
 
 MIDDLEWARE = [
